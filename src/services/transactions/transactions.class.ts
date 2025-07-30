@@ -2,6 +2,8 @@
 import type { Id, NullableId, Params, ServiceInterface } from '@feathersjs/feathers'
 
 import type { Application } from '../../declarations'
+import Lithic from 'lithic'
+import { TransactionsCursorPage } from 'lithic/resources/index'
 
 type Transactions = any
 type TransactionsData = any
@@ -22,53 +24,31 @@ export class TransactionsService<ServiceParams extends TransactionsParams = Tran
 {
   constructor(public options: TransactionsServiceOptions) {}
 
+  private lithicClient = new Lithic({
+    apiKey: process.env.LITHIC_API_KEY,
+    environment: 'sandbox'
+  })
+
   async find(_params?: ServiceParams): Promise<Transactions[]> {
     return []
   }
 
-  async get(id: Id, _params?: ServiceParams): Promise<Transactions> {
-    return {
-      id: 0,
-      text: `A new message with ID: ${id}!`
-    }
-  }
+  async genTransactionsFromCardToken(cardToken: string): Promise<{
+    data: Lithic.Transactions.Transaction[]
+    nextCursor?: string
+  }> {
+    const query: Lithic.Transactions.TransactionListParams = {
+      card_token: cardToken,
+      page_size: 100
 
-  async create(data: TransactionsData, params?: ServiceParams): Promise<Transactions>
-  async create(data: TransactionsData[], params?: ServiceParams): Promise<Transactions[]>
-  async create(
-    data: TransactionsData | TransactionsData[],
-    params?: ServiceParams
-  ): Promise<Transactions | Transactions[]> {
-    if (Array.isArray(data)) {
-      return Promise.all(data.map(current => this.create(current, params)))
+      // TODO: add more filters here for begin/end/result/status
     }
 
-    return {
-      id: 0,
-      ...data
-    }
-  }
+    const transactions = await this.lithicClient.transactions.list(query)
 
-  // This method has to be added to the 'methods' option to make it available to clients
-  async update(id: NullableId, data: TransactionsData, _params?: ServiceParams): Promise<Transactions> {
     return {
-      id: 0,
-      ...data
-    }
-  }
-
-  async patch(id: NullableId, data: TransactionsPatch, _params?: ServiceParams): Promise<Transactions> {
-    return {
-      id: 0,
-      text: `Fallback for ${id}`,
-      ...data
-    }
-  }
-
-  async remove(id: NullableId, _params?: ServiceParams): Promise<Transactions> {
-    return {
-      id: 0,
-      text: 'removed'
+      data: transactions.data,
+      nextCursor: transactions.has_more ? transactions.data[transactions.data.length - 1].token : undefined
     }
   }
 }

@@ -18,13 +18,7 @@ export type TransactionsClientService = Pick<
 
 export const transactionsPath = 'transactions'
 
-export const transactionsMethods: Array<keyof TransactionsService> = [
-  'find',
-  'get',
-  'create',
-  'patch',
-  'remove'
-]
+export const transactionsMethods: Array<keyof TransactionsService> = ['find', 'genTransactionsFromCardToken']
 
 export const transactionsClient = (client: ClientApplication) => {
   const connection = client.get('connection')

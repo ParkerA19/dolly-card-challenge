@@ -23,10 +23,7 @@ export const transactions = (app: Application) => {
     before: {
       all: [],
       find: [],
-      get: [],
-      create: [],
-      patch: [],
-      remove: []
+      genTransactionsFromCardToken: []
     },
     after: {
       all: []
