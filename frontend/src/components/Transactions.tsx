@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { client } from '../feathers/feathers'
+import { TransactionsTable } from './TransactionsTable'
 
 export function Transactions(): React.ReactElement {
   const { data, error, isLoading } = useInfiniteQuery({
@@ -60,14 +61,14 @@ export function Transactions(): React.ReactElement {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">Transactions</h2>
+      <TransactionsTable data={transactions} />
 
-      {transactions.length > 0 ? (
+      {/* {transactions.length > 0 ? (
         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
           <p className="text-gray-700 mb-4">
             Found <span className="font-semibold text-gray-900">{transactions.length}</span> transactions
           </p>
-          {/* TODO: Display transactions in a table */}
-          <div className="text-gray-500 text-sm">Transaction table will be implemented here</div>
+          <TransactionsTable data={transactions} />
         </div>
       ) : (
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-8">
@@ -77,7 +78,7 @@ export function Transactions(): React.ReactElement {
             <p className="text-gray-600">No transactions have been made with this card yet.</p>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

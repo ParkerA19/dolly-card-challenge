@@ -21,8 +21,11 @@ importers:
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       dolly-card-backend:
-        specifier: http://localhost:3030/dolly-card-challenge-0.0.1.tgz
-        version: dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.1.tgz(typescript@5.8.3)
+        specifier: http://localhost:3030/dolly-card-challenge-0.0.2.tgz
+        version: dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.2.tgz(typescript@5.8.3)
+      prettier:
+        specifier: ^3.6.2
+        version: 3.6.2
       react:
         specifier: ^19.1.0
         version: 19.1.1
@@ -1080,9 +1083,9 @@ packages:
   dezalgo@1.0.4:
     resolution: {integrity: sha512-rXSP0bf+5n0Qonsb+SVVfNfIsimO4HEtmnIpPHY8Q1UCzKlQrDMfdobr8nJOOsRgWCyMRqeSBQzmWUMq7zvVig==}
 
-  dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.1.tgz:
-    resolution: {tarball: http://localhost:3030/dolly-card-challenge-0.0.1.tgz}
-    version: 0.0.1
+  dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.2.tgz:
+    resolution: {tarball: http://localhost:3030/dolly-card-challenge-0.0.2.tgz}
+    version: 0.0.2
     engines: {node: '>= 20.16.0'}
 
   dotenv@17.2.1:
@@ -1762,6 +1765,11 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+
+  prettier@3.6.2:
+    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -3100,7 +3108,7 @@ snapshots:
       asap: 2.0.6
       wrappy: 1.0.2
 
-  dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.1.tgz(typescript@5.8.3):
+  dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.2.tgz(typescript@5.8.3):
     dependencies:
       '@feathersjs/adapter-commons': 5.0.34
       '@feathersjs/authentication': 5.0.34(typescript@5.8.3)
@@ -3799,6 +3807,8 @@ snapshots:
       source-map-js: 1.2.1
 
   prelude-ls@1.2.1: {}
+
+  prettier@3.6.2: {}
 
   punycode@2.3.1: {}
 

@@ -5,7 +5,7 @@ import type { Application } from '../../declarations'
 import Lithic from 'lithic'
 import { TransactionsCursorPage } from 'lithic/resources/index'
 
-type Transactions = any
+type Transactions = Lithic.Transactions.Transaction
 type TransactionsData = any
 type TransactionsPatch = any
 type TransactionsQuery = any
