@@ -1,5 +1,14 @@
 import type { Transactions } from 'dolly-card-backend'
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getExpandedRowModel,
+  getGroupedRowModel,
+  useReactTable,
+  type GroupingState
+} from '@tanstack/react-table'
+import { useState } from 'react'
 
 type Props = {
   data: Transactions[]
@@ -12,13 +21,12 @@ const columns = [
     header: () => 'MCC',
     cell: info => info.getValue()
   }),
-  // columnHelper.accessor(row => row.lastName, {
-  //   id: 'lastName',
-  //   cell: info => <i>{info.getValue()}</i>,
-  //   header: () => <span>Last Name</span>,
-  // }),
   columnHelper.accessor('merchant.descriptor', {
     header: () => 'Merchant',
+    cell: info => info.renderValue()
+  }),
+  columnHelper.accessor('merchant_currency', {
+    header: () => 'Merchant Currency',
     cell: info => info.renderValue()
   }),
   columnHelper.accessor('amount', {
@@ -36,10 +44,18 @@ const columns = [
 ]
 
 export function TransactionsTable({ data }: Props): React.ReactElement {
+  const [grouping, setGrouping] = useState<GroupingState>([])
+
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel()
+    state: {
+      grouping
+    },
+    onGroupingChange: setGrouping,
+    getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+    getGroupedRowModel: getGroupedRowModel()
   })
 
   return (
