@@ -98,11 +98,19 @@ const columns = [
     //   </span>
     // )
   }),
-  columnHelper.accessor(row => row, {
+  columnHelper.accessor(_row => 1, {
     id: 'count',
-    cell: _info => '',
     header: () => <span>Transactions</span>,
-    aggregatedCell: info => <span className="font-semibold text-gray-900">{info.row.subRows.length}</span>
+    aggregationFn: 'sum',
+    cell: info => {
+      if (info.row.getIsGrouped()) {
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            {info.row.subRows.length}
+          </span>
+        )
+      }
+    }
   })
 ]
 
