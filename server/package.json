@@ -51,6 +51,7 @@
     "@feathersjs/koa": "^5.0.34",
     "@feathersjs/schema": "^5.0.34",
     "@feathersjs/transport-commons": "^5.0.34",
+    "dotenv": "^17.2.1",
     "lithic": "^0.112.0",
     "winston": "^3.17.0"
   },
