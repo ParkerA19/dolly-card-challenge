@@ -33,9 +33,35 @@ const columns = [
     header: () => 'Amount',
     cell: info => (
       <span className="font-semibold text-gray-900">
-        {typeof info.getValue() === 'number' ? `$${info.getValue().toFixed(2)}` : info.getValue()}
+        {Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency:
+            // I need to get the current from the other merchant_currency cell in the same row
+            info.row.original.merchant_currency || 'USD' // Default to USD if not available
+        }).format(typeof info.getValue() === 'number' ? info.getValue() : 0)}
+      </span>
+    ),
+
+    // P sure these are used for grouping when a cell is aggregated
+    aggregationFn: 'sum',
+    aggregatedCell: info => (
+      <span className="font-semibold text-gray-900">
+        {Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency:
+            // I need to get the current from the other merchant_currency cell in the same row
+            info.row.original.merchant_currency || 'USD' // Default to USD if not available
+        }).format(typeof info.getValue() === 'number' ? info.getValue() : 0)}
       </span>
     )
+
+    // TODO: Figure out how to add a footer for the total amount. Nice to have but not critical
+    // footer: info => (
+    //   // Add the total sum here
+    //   <span className="font-semibold text-gray-900">
+    //     {info.column.getFilteredRows().reduce((sum, row) => sum + (row.getValue('amount') || 0), 0).toFixed(2)}
+    //   </span>
+    // )
   }),
   columnHelper.accessor('status', {
     header: 'Status',
