@@ -36,20 +36,30 @@ export class TransactionsService<ServiceParams extends TransactionsParams = Tran
   async genTransactionsFromCardToken(input: {
     cardToken: string
     cursor?: string
-    // TODO: add more filters as inputs here
+    begin?: string // These need to be in UTC format for Lithic
+    end?: string
+    // Would be better to get this type directly from Lithic but not available in the package.
+    status?: 'PENDING' | 'VOIDED' | 'SETTLED' | 'DECLINED' | 'EXPIRED'
+    result?: 'APPROVED' | 'DECLINED'
   }): Promise<{
     data: Lithic.Transactions.Transaction[]
     nextCursor?: string
   }> {
     const { cardToken, cursor } = input
+
     const query: Lithic.Transactions.TransactionListParams = {
       card_token: cardToken,
       page_size: 100,
-      starting_after: cursor && cursor !== '' ? cursor : undefined
-      // TODO: add more filters here for begin/end/result/status
+      starting_after: cursor && cursor !== '' ? cursor : undefined,
+      begin: input.begin,
+      end: input.end,
+      status: input.status,
+      result: input.result
     }
 
     // TODO: handle the grouping of transactions by Merchant (id?), MCC, Location (Currency)
+    // We handle grouping on the frontend actually so probably not needed here.
+    // Also we can't include mcc, merchant, or currency in the query so directly filtering with the query is not possible.
 
     const transactions = await this.lithicClient.transactions.list(query)
 
