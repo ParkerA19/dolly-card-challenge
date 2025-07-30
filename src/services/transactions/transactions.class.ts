@@ -44,6 +44,8 @@ export class TransactionsService<ServiceParams extends TransactionsParams = Tran
       // TODO: add more filters here for begin/end/result/status
     }
 
+    // TODO: handle the grouping of transactions by Merchant (id?), MCC, Location (Currency)
+
     const transactions = await this.lithicClient.transactions.list(query)
 
     return {
