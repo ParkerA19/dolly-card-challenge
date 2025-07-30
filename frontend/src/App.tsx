@@ -1,11 +1,14 @@
 import './App.css'
 import { Transactions } from './components/Transactions'
+import { QueryProvider } from './QueryProvider'
 
 function App() {
   return (
-    <div className="">
-      <Transactions />
-    </div>
+    <QueryProvider>
+      <div className="">
+        <Transactions />
+      </div>
+    </QueryProvider>
   )
 }
 
