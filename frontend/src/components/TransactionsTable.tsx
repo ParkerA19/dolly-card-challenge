@@ -43,12 +43,13 @@ const columns = [
     cell: info => {
       const status = info.getValue() as string
       const statusColors = {
-        approved: 'bg-green-100 text-green-800',
-        pending: 'bg-yellow-100 text-yellow-800',
-        declined: 'bg-red-100 text-red-800',
-        default: 'bg-gray-100 text-gray-800'
+        SETTLED: 'bg-green-100 text-green-800',
+        DECLINED: 'bg-red-100 text-red-800',
+        PENDING: 'bg-yellow-100 text-yellow-800',
+        VOIDED: 'bg-red-100 text-red-800',
+        EXPIRED: 'bg-gray-100 text-gray-800'
       }
-      const colorClass = statusColors[status as keyof typeof statusColors] || statusColors.default
+      const colorClass = statusColors[status as keyof typeof statusColors] || statusColors.PENDING
 
       return (
         <span
@@ -61,7 +62,23 @@ const columns = [
   }),
   columnHelper.accessor('result', {
     id: 'result',
-    header: 'Result'
+    header: 'Result',
+    cell: info => {
+      const status = info.getValue() as string
+      const statusColors = {
+        APPROVED: 'bg-green-100 text-green-800',
+        DECLINED: 'bg-red-100 text-red-800'
+      }
+      const colorClass = statusColors[status as keyof typeof statusColors] || statusColors.APPROVED
+
+      return (
+        <span
+          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}`}
+        >
+          {status}
+        </span>
+      )
+    }
   }),
   columnHelper.accessor('amount', {
     id: 'amount',

@@ -170,8 +170,6 @@ function TransactionsContent({ begin, end, status, result }: ContentProps): Reac
 
   const transactions = data?.pages.flatMap(page => page.data) || []
 
-  // TODO: Display the data in a table and adding loading and error states
-
   return (
     <div className="w-full min-h-screen mx-auto p-6">
       <TransactionsTable data={transactions} />
