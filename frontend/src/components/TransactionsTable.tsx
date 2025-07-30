@@ -97,6 +97,12 @@ const columns = [
     //     {info.column.getFilteredRows().reduce((sum, row) => sum + (row.getValue('amount') || 0), 0).toFixed(2)}
     //   </span>
     // )
+  }),
+  columnHelper.accessor(row => row, {
+    id: 'count',
+    cell: _info => '',
+    header: () => <span>Transactions</span>,
+    aggregatedCell: info => <span className="font-semibold text-gray-900">{info.row.subRows.length}</span>
   })
 ]
 
@@ -116,6 +122,7 @@ export function TransactionsTable({ data }: Props): React.ReactElement {
     },
     onGroupingChange: setGrouping,
     onSortingChange: setSorting,
+    onExpandedChange: setExpanded,
     getCoreRowModel: getCoreRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
     getGroupedRowModel: getGroupedRowModel(),
@@ -178,20 +185,39 @@ export function TransactionsTable({ data }: Props): React.ReactElement {
             ))}
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
-            {table.getRowModel().rows.map((row, index) => (
-              <tr
-                key={row.id}
-                className={`hover:bg-blue-25 transition-colors duration-150 ${
-                  index % 2 === 0 ? 'bg-white' : 'bg-gray-25'
-                }`}
-              >
-                {row.getVisibleCells().map(cell => (
-                  <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {table.getRowModel().rows.map((row, index) => {
+              if (row.getIsGrouped()) {
+                // lets display the grouped row to make it expandable and show it as a different style
+                return (
+                  <tr
+                    key={row.id}
+                    className={`hover:bg-blue-25 transition-colors duration-150 bg-slate-300`}
+                    onClick={() => row.toggleExpanded()}
+                  >
+                    {row.getVisibleCells().map(cell => (
+                      <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
+                )
+              }
+
+              return (
+                <tr
+                  key={row.id}
+                  className={`hover:bg-blue-25 transition-colors duration-150 ${
+                    index % 2 === 0 ? 'bg-white' : 'bg-gray-25'
+                  }`}
+                >
+                  {row.getVisibleCells().map(cell => (
+                    <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
+              )
+            })}
           </tbody>
           {table.getFooterGroups().length > 0 && (
             <tfoot className="bg-blue-50 border-t border-blue-100">

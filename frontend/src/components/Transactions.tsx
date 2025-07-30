@@ -59,7 +59,7 @@ export function Transactions(): React.ReactElement {
   // TODO: Display the data in a table and adding loading and error states
 
   return (
-    <div className="w-full mx-auto p-6">
+    <div className="w-full min-h-screen mx-auto p-6">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">Transactions</h2>
       <TransactionsTable data={transactions} />
     </div>
