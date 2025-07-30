@@ -33,14 +33,19 @@ export class TransactionsService<ServiceParams extends TransactionsParams = Tran
     return []
   }
 
-  async genTransactionsFromCardToken(cardToken: string): Promise<{
+  async genTransactionsFromCardToken(input: {
+    cardToken: string
+    cursor?: string
+    // TODO: add more filters as inputs here
+  }): Promise<{
     data: Lithic.Transactions.Transaction[]
     nextCursor?: string
   }> {
+    const { cardToken, cursor } = input
     const query: Lithic.Transactions.TransactionListParams = {
       card_token: cardToken,
-      page_size: 100
-
+      page_size: 100,
+      starting_after: cursor
       // TODO: add more filters here for begin/end/result/status
     }
 
