@@ -5,8 +5,11 @@ import {
   getCoreRowModel,
   getExpandedRowModel,
   getGroupedRowModel,
+  getSortedRowModel,
   useReactTable,
-  type GroupingState
+  type ExpandedState,
+  type GroupingState,
+  type SortingState
 } from '@tanstack/react-table'
 import { useState } from 'react'
 
@@ -14,22 +17,54 @@ type Props = {
   data: Transactions[]
 }
 
+type GroupingColumns = 'mcc' | 'merchant' | 'currency' | 'status' | 'result'
+
 const columnHelper = createColumnHelper<Transactions>()
 
 const columns = [
   columnHelper.accessor('merchant.mcc', {
+    id: 'mcc',
     header: () => 'MCC',
     cell: info => info.getValue()
   }),
   columnHelper.accessor('merchant.descriptor', {
+    id: 'merchant',
     header: () => 'Merchant',
     cell: info => <div className="font-medium text-gray-900">{info.renderValue()}</div>
   }),
   columnHelper.accessor('merchant_currency', {
+    id: 'currency',
     header: () => 'Currency',
     cell: info => <span className="text-gray-600 font-mono text-sm">{info.renderValue()}</span>
   }),
+  columnHelper.accessor('status', {
+    id: 'status',
+    header: 'Status',
+    cell: info => {
+      const status = info.getValue() as string
+      const statusColors = {
+        approved: 'bg-green-100 text-green-800',
+        pending: 'bg-yellow-100 text-yellow-800',
+        declined: 'bg-red-100 text-red-800',
+        default: 'bg-gray-100 text-gray-800'
+      }
+      const colorClass = statusColors[status as keyof typeof statusColors] || statusColors.default
+
+      return (
+        <span
+          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}`}
+        >
+          {status}
+        </span>
+      )
+    }
+  }),
+  columnHelper.accessor('result', {
+    id: 'result',
+    header: 'Result'
+  }),
   columnHelper.accessor('amount', {
+    id: 'amount',
     header: () => 'Amount',
     cell: info => (
       <span className="font-semibold text-gray-900">
@@ -62,51 +97,69 @@ const columns = [
     //     {info.column.getFilteredRows().reduce((sum, row) => sum + (row.getValue('amount') || 0), 0).toFixed(2)}
     //   </span>
     // )
-  }),
-  columnHelper.accessor('status', {
-    header: 'Status',
-    cell: info => {
-      const status = info.getValue() as string
-      const statusColors = {
-        approved: 'bg-green-100 text-green-800',
-        pending: 'bg-yellow-100 text-yellow-800',
-        declined: 'bg-red-100 text-red-800',
-        default: 'bg-gray-100 text-gray-800'
-      }
-      const colorClass = statusColors[status as keyof typeof statusColors] || statusColors.default
-
-      return (
-        <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}`}
-        >
-          {status}
-        </span>
-      )
-    }
-  }),
-  columnHelper.accessor('result', {
-    header: 'Result'
   })
 ]
 
 export function TransactionsTable({ data }: Props): React.ReactElement {
   const [grouping, setGrouping] = useState<GroupingState>([])
+  const [expanded, setExpanded] = useState<ExpandedState>(true)
+
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'amount', desc: true }])
 
   const table = useReactTable({
     data,
     columns,
     state: {
-      grouping
+      grouping,
+      expanded,
+      sorting
     },
     onGroupingChange: setGrouping,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
-    getGroupedRowModel: getGroupedRowModel()
+    getGroupedRowModel: getGroupedRowModel(),
+    getSortedRowModel: getSortedRowModel()
   })
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       <div className="overflow-x-auto">
+        {/* Lets create some tabs that control the grouping of these elements */}
+
+        <nav className="border-b border-gray-200 bg-gray-50">
+          <div className="px-4">
+            <ul className="flex space-x-8">
+              <li>
+                <button
+                  className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                    grouping.length === 0
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                  onClick={() => setGrouping([])}
+                >
+                  All Transactions
+                </button>
+              </li>
+              {(['mcc', 'merchant', 'currency', 'status', 'result'] as GroupingColumns[]).map(column => (
+                <li key={column}>
+                  <button
+                    className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                      grouping.includes(column)
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                    onClick={() => setGrouping([column])}
+                  >
+                    Group by {column.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
         <table className="w-full">
           <thead className="bg-blue-50 border-b border-blue-100">
             {table.getHeaderGroups().map(headerGroup => (
