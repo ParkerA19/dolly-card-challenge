@@ -18,8 +18,8 @@ importers:
         specifier: ^5.83.0
         version: 5.83.0(react@19.1.1)
       dolly-card-backend:
-        specifier: http://localhost:3030/dolly-card-challenge-0.0.0.tgz
-        version: dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.0.tgz(typescript@5.8.3)
+        specifier: http://localhost:3030/dolly-card-challenge-0.0.1.tgz
+        version: dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.1.tgz(typescript@5.8.3)
       react:
         specifier: ^19.1.0
         version: 19.1.1
@@ -1066,9 +1066,9 @@ packages:
   dezalgo@1.0.4:
     resolution: {integrity: sha512-rXSP0bf+5n0Qonsb+SVVfNfIsimO4HEtmnIpPHY8Q1UCzKlQrDMfdobr8nJOOsRgWCyMRqeSBQzmWUMq7zvVig==}
 
-  dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.0.tgz:
-    resolution: {tarball: http://localhost:3030/dolly-card-challenge-0.0.0.tgz}
-    version: 0.0.0
+  dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.1.tgz:
+    resolution: {tarball: http://localhost:3030/dolly-card-challenge-0.0.1.tgz}
+    version: 0.0.1
     engines: {node: '>= 20.16.0'}
 
   dotenv@17.2.1:
@@ -3078,7 +3078,7 @@ snapshots:
       asap: 2.0.6
       wrappy: 1.0.2
 
-  dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.0.tgz(typescript@5.8.3):
+  dolly-card-challenge@http://localhost:3030/dolly-card-challenge-0.0.1.tgz(typescript@5.8.3):
     dependencies:
       '@feathersjs/adapter-commons': 5.0.34
       '@feathersjs/authentication': 5.0.34(typescript@5.8.3)

@@ -45,7 +45,7 @@ export class TransactionsService<ServiceParams extends TransactionsParams = Tran
     const query: Lithic.Transactions.TransactionListParams = {
       card_token: cardToken,
       page_size: 100,
-      starting_after: cursor
+      starting_after: cursor && cursor !== '' ? cursor : undefined
       // TODO: add more filters here for begin/end/result/status
     }
 

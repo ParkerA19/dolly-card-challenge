@@ -7,7 +7,10 @@ export function Transactions(): React.ReactElement {
     queryFn: async ({ pageParam }) => {
       return await client
         .service('transactions')
-        .genTransactionsFromCardToken('d438125c-5c47-4b4a-bfcc-6da22b8c51a6')
+        .genTransactionsFromCardToken({
+          cardToken: 'd438125c-5c47-4b4a-bfcc-6da22b8c51a6',
+          cursor: pageParam
+        })
     },
     initialPageParam: '', // This is required so we have to handle this on the backend
     getNextPageParam: (lastPage, allPages) => {

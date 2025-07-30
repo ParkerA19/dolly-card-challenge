@@ -17,7 +17,7 @@
     "react-dom": "^19.1.0",
     "superjson": "^2.2.2",
     "tailwindcss": "^4.1.11",
-    "dolly-card-backend": "http://localhost:3030/dolly-card-challenge-0.0.0.tgz"
+    "dolly-card-backend": "http://localhost:3030/dolly-card-challenge-0.0.1.tgz"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
