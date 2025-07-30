@@ -5,7 +5,7 @@ import { QueryProvider } from './QueryProvider'
 function App() {
   return (
     <QueryProvider>
-      <div className="">
+      <div className="bg-gray-200 w-screen min-h-screen flex items-center justify-center">
         <Transactions />
       </div>
     </QueryProvider>
