@@ -1,4 +1,24 @@
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { client } from '../feathers/feathers'
+
 export function Transactions(): React.ReactElement {
+  const { data, error, isLoading } = useInfiniteQuery({
+    queryKey: ['todos'],
+    queryFn: async ({ pageParam }) => {
+      return await client
+        .service('transactions')
+        .genTransactionsFromCardToken('d438125c-5c47-4b4a-bfcc-6da22b8c51a6')
+    },
+    initialPageParam: '', // This is required so we have to handle this on the backend
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.nextCursor
+    }
+  })
+
+  console.log('Transactions data:', data)
+
+  // TODO: Display the data in a table and adding loading and error states
+
   return (
     <div>
       <h2>Transactions Component</h2>
