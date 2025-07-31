@@ -114,7 +114,7 @@ type ContentProps = {
 }
 
 function TransactionsContent({ begin, end, status, result }: ContentProps): React.ReactElement {
-  const { data, error, isLoading } = useInfiniteQuery({
+  const { data, error, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['transactions', begin, end, status, result],
     queryFn: async ({ pageParam }) => {
       return await client.service('transactions').genTransactionsFromCardToken({
@@ -173,6 +173,17 @@ function TransactionsContent({ begin, end, status, result }: ContentProps): Reac
   return (
     <div className="w-full min-h-screen mx-auto p-6">
       <TransactionsTable data={transactions} />
+      {hasNextPage && (
+        <div className="mt-6">
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+          >
+            {isFetchingNextPage ? 'Loading...' : 'Load More Transactions'}
+          </button>
+        </div>
+      )}
     </div>
   )
 }
