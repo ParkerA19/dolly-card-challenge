@@ -108,6 +108,7 @@ const columns = [
     )
 
     // TODO: Figure out how to add a footer for the total amount. Nice to have but not critical
+    // this doesnt actually make much sense since currencies are different. There is already a sum when grouping by currency so thats fine.
     // footer: info => (
     //   // Add the total sum here
     //   <span className="font-semibold text-gray-900">

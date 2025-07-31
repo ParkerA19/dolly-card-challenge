@@ -9,18 +9,37 @@ This project uses [Feathers](http://feathersjs.com). An open source framework fo
 ## Getting Started
 
 1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+
+
+BACKEND STEPS
 2. Install your dependencies
 
     ```
-    cd path/to/dolly-card-challenge
-    npm install
+    cd path/to/dolly-card-challenge/server
+    pnpm install
     ```
 
-3. Start your app
+3. Start your feathers backend
 
     ```
-    npm run compile # Compile TypeScript source
-    npm run migrate # Run migrations to set up the database
-    npm start
+    pnpm run compile # Compile TypeScript source
+    pnpm start
     ```
+
+
+FRONTEND STEPS
+
+4. Install your dependencies
+
+    ```
+    cd path/to/dolly-card-challenge/frontend
+    pnpm install
+    ```
+
+3. Start your Vite/React frontend
+    ```
+    pnpm run compile # Compile TypeScript source
+    pnpm dev
+    ```
+
 
