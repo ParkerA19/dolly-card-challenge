@@ -5,10 +5,11 @@
 ## About
 
 This project uses [Feathers](http://feathersjs.com). An open source framework for building APIs and real-time applications.
+It also uses Vite + React + Typescript for the frontend.
 
 ## Getting Started
 
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+1. Make sure you have [NodeJS](https://nodejs.org/) and [pnpm](https://pnpm.io/installation) installed.
 
 
 BACKEND STEPS
